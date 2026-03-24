@@ -4,90 +4,331 @@
     <meta charset="UTF-8">
     <title>O que é Computação em Nuvem?</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-deep: #0a1628;
+            --bg-card: rgba(255, 255, 255, 0.06);
+            --bg-card-solid: #111f36;
+            --accent: #3d9cf5;
+            --accent-soft: #5eb8ff;
+            --accent-glow: rgba(61, 156, 245, 0.35);
+            --text: #e8eef7;
+            --text-muted: #9db0c8;
+            --border: rgba(255, 255, 255, 0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: "Outfit", system-ui, sans-serif;
             margin: 0;
             padding: 0;
-            background: #f5f7fb;
-            color: #222;
+            background: var(--bg-deep);
+            color: var(--text);
+            line-height: 1.65;
+            font-weight: 400;
         }
 
-        header {
-            background: #3742fa;
-            color: #fff;
-            padding: 20px;
+        ::selection {
+            background: var(--accent);
+            color: var(--bg-deep);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            min-height: 58vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 3rem 1.5rem 4rem;
+            overflow: hidden;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
+        .hero__bg {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(160deg, rgba(10, 22, 40, 0.92) 0%, rgba(10, 22, 40, 0.75) 45%, rgba(17, 31, 54, 0.88) 100%),
+                url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80") center / cover no-repeat;
+            z-index: 0;
         }
 
+        .hero__grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(61, 156, 245, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(61, 156, 245, 0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero__content {
+            position: relative;
+            z-index: 2;
+            max-width: 720px;
+        }
+
+        .hero__eyebrow {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent-soft);
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+
+        .hero h1 {
+            margin: 0 0 0.75rem;
+            font-size: clamp(1.85rem, 5vw, 2.75rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero__subtitle {
+            margin: 0 0 2rem;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            max-width: 32em;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.95rem 1.85rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--bg-deep);
+            background: linear-gradient(135deg, var(--accent-soft) 0%, var(--accent) 100%);
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 8px 32px var(--accent-glow), 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px var(--accent-glow), 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn svg {
+            width: 1.1em;
+            height: 1.1em;
+        }
+
+        /* Main layout */
         main {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 0 15px 30px;
+            max-width: 920px;
+            margin: -2.5rem auto 0;
+            padding: 0 1.25rem 4rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .intro-banner {
+            display: grid;
+            gap: 1.5rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 700px) {
+            .intro-banner {
+                grid-template-columns: 1fr 1.1fr;
+                gap: 2rem;
+            }
+        }
+
+        .intro-banner__img {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            aspect-ratio: 4 / 3;
+        }
+
+        .intro-banner__img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         section {
-            background: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.75rem 1.5rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.25s ease;
+        }
+
+        @media (min-width: 640px) {
+            section {
+                padding: 2rem 2.25rem;
+            }
+        }
+
+        section:hover {
+            border-color: rgba(61, 156, 245, 0.2);
         }
 
         h2 {
-            color: #3742fa;
-            margin-top: 0;
+            font-family: "Source Serif 4", Georgia, serif;
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: var(--accent-soft);
+            margin: 0 0 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        section p {
+            margin: 0 0 1rem;
+            color: var(--text-muted);
+            font-size: 1.02rem;
+        }
+
+        section p:last-child {
+            margin-bottom: 0;
         }
 
         ul {
-            padding-left: 20px;
+            margin: 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        section ul li {
+            position: relative;
+            padding-left: 1.35rem;
+            margin-bottom: 0.85rem;
+            color: var(--text-muted);
+            font-size: 1.02rem;
+        }
+
+        section ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        section ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        section ul li strong {
+            color: var(--text);
+            font-weight: 600;
         }
 
         footer {
             text-align: center;
-            padding: 15px;
-            background: #222f3e;
-            color: #fff;
-            font-size: 0.9rem;
+            padding: 2rem 1.25rem;
+            background: linear-gradient(180deg, var(--bg-deep) 0%, #060d18 100%);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            margin: 0;
+            opacity: 0.85;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>O que é Computação em Nuvem?</h1>
-        <p>Entenda o conceito de forma simples</p>
+    <header class="hero">
+        <div class="hero__bg" aria-hidden="true"></div>
+        <div class="hero__grid" aria-hidden="true"></div>
+        <div class="hero__content">
+            <span class="hero__eyebrow">Tecnologia · Internet</span>
+            <h1>O que é Computação em Nuvem?</h1>
+            <p class="hero__subtitle">Entenda o conceito de forma simples</p>
+            <a class="btn" href="#introducao" role="button">
+                Começar a leitura
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </a>
+        </div>
     </header>
 
     <main>
-        <section id="introducao">
-            <h2>Introdução</h2>
-            <p>
-                Computação em nuvem é a entrega de recursos de TI (como servidores, 
-                armazenamento, bancos de dados, redes, software e muito mais) pela 
-                internet, sob demanda e geralmente com pagamento conforme o uso.
-            </p>
-            <p>
-                Em vez de comprar e manter servidores físicos, você utiliza serviços 
-                de empresas como Amazon Web Services (AWS), Microsoft Azure ou Google Cloud.
-            </p>
-        </section>
+        <div class="intro-banner">
+            <div class="intro-banner__img">
+                <img
+                    src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80"
+                    alt="Rack de servidores em datacenter, ilustrando infraestrutura de nuvem"
+                    width="800"
+                    height="600"
+                    loading="lazy">
+            </div>
+            <section id="introducao" aria-labelledby="titulo-introducao">
+                <h2 id="titulo-introducao">Introdução</h2>
+                <p>
+                    Computação em nuvem é a entrega de recursos de TI (como servidores,
+                    armazenamento, bancos de dados, redes, software e muito mais) pela
+                    internet, sob demanda e geralmente com pagamento conforme o uso.
+                </p>
+                <p>
+                    Em vez de comprar e manter servidores físicos, você utiliza serviços
+                    de empresas como Amazon Web Services (AWS), Microsoft Azure ou Google Cloud.
+                </p>
+            </section>
+        </div>
 
         <section id="como-funciona">
             <h2>Como funciona?</h2>
             <p>
-                De forma simplificada, fornecedores de nuvem possuem grandes 
-                datacenters com milhares de servidores. Esses recursos são 
-                divididos e disponibilizados para usuários do mundo inteiro 
+                De forma simplificada, fornecedores de nuvem possuem grandes
+                datacenters com milhares de servidores. Esses recursos são
+                divididos e disponibilizados para usuários do mundo inteiro
                 pela internet.
             </p>
             <p>
-                Você acessa esses recursos por meio de um navegador ou de 
-                aplicativos específicos, sem precisar saber onde, fisicamente, 
+                Você acessa esses recursos por meio de um navegador ou de
+                aplicativos específicos, sem precisar saber onde, fisicamente,
                 as máquinas estão localizadas.
             </p>
         </section>
@@ -96,18 +337,18 @@
             <h2>Modelos de serviço</h2>
             <ul>
                 <li>
-                    <strong>IaaS (Infrastructure as a Service)</strong>: 
-                    infraestrutura como serviço. Ex.: servidores virtuais, 
+                    <strong>IaaS (Infrastructure as a Service)</strong>:
+                    infraestrutura como serviço. Ex.: servidores virtuais,
                     redes e armazenamento.
                 </li>
                 <li>
                     <strong>PaaS (Platform as a Service)</strong>:
-                    plataforma como serviço. Ex.: ambiente pronto para 
+                    plataforma como serviço. Ex.: ambiente pronto para
                     desenvolver e hospedar aplicações.
                 </li>
                 <li>
                     <strong>SaaS (Software as a Service)</strong>:
-                    software como serviço. Ex.: Gmail, Microsoft 365, 
+                    software como serviço. Ex.: Gmail, Microsoft 365,
                     Google Workspace.
                 </li>
             </ul>
